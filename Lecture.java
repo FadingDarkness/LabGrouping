@@ -22,13 +22,15 @@ public class Lecture
 	{
 		fileName = filename;
 		studentList = new ArrayList<Student>();
-	
+		writeFile();
+		readFile();
 
 	}
 	public void addStu(String stuName, boolean gender)
 	{
 		newStu = new Student(stuName, gender);
 		studentList.add(newStu);
+		writeFile();
 	}
 	
 	public void remove(String stuName)
@@ -38,7 +40,10 @@ public class Lecture
 		{
 			if(studentList.get(i).getName().equals(stuName))
 				studentList.remove(i);
+			
 		}
+		writeFile();
+		
 
 	}
 
@@ -87,10 +92,19 @@ public class Lecture
 			}
 			else
 				write.println(0);
-			studentList.remove(i);
 		}
+		write.close();
+		
+		
 		
 	}
-
-
+	public String toString()
+	{
+		String str = "";
+		for(int i = 0; i < studentList.size(); i++)
+		{
+			str += studentList.get(i).getName() + "\n";
+		}
+		return str;
+	}
 }
