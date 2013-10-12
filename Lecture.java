@@ -16,9 +16,11 @@ public class Lecture
 	private String name;
 	private boolean isMale;
 	private PrintWriter write;
+	private String fileName;
 
-	public Lecture(String labName)
+	public Lecture(String filename)
 	{
+		fileName = filename;
 		studentList = new ArrayList<Student>();
 	
 
@@ -40,12 +42,12 @@ public class Lecture
 
 	}
 
-	public void readFile(String filename)
+	private void readFile()
 	{
 
 		try
 		{
-			in = new Scanner(new File(filename));
+			in = new Scanner(new File(fileName));
 		} catch (FileNotFoundException e)
 		{
 			
@@ -66,11 +68,11 @@ public class Lecture
 
 	}
 
-	public void writeFile(String filename)
+	private void writeFile()
 	{
 		try
 		{
-			write = new PrintWriter(filename);
+			write = new PrintWriter(fileName);
 		} catch (FileNotFoundException e)
 		{
 		
