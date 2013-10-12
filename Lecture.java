@@ -1,12 +1,13 @@
 //This is the for each class of students, grouping each lecture
 
-package ilstu.edu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+//This is the for each class of students, grouping each lecture
+
 
 public class Lecture
 {
@@ -16,11 +17,11 @@ public class Lecture
 	private String name;
 	private boolean isMale;
 	private PrintWriter write;
-	private String fileName;
+	private File filename;
 
-	public Lecture(String filename)
+	public Lecture(String fileName)
 	{
-		fileName = filename;
+		filename = new File(fileName);
 		studentList = new ArrayList<Student>();
 		writeFile();
 		readFile();
@@ -52,7 +53,7 @@ public class Lecture
 
 		try
 		{
-			in = new Scanner(new File(fileName));
+			in = new Scanner(filename);
 		} catch (FileNotFoundException e)
 		{
 			
@@ -75,9 +76,10 @@ public class Lecture
 
 	private void writeFile()
 	{
+		filename.delete();
 		try
 		{
-			write = new PrintWriter(fileName);
+			write = new PrintWriter(filename);
 		} catch (FileNotFoundException e)
 		{
 		
@@ -98,13 +100,5 @@ public class Lecture
 		
 		
 	}
-	public String toString()
-	{
-		String str = "";
-		for(int i = 0; i < studentList.size(); i++)
-		{
-			str += studentList.get(i).getName() + "\n";
-		}
-		return str;
-	}
+
 }
