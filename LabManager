@@ -1,0 +1,53 @@
+package edu.ilstu.it226;
+
+import java.util.ArrayList;
+
+public class GroupManager {
+	/** 
+	 * This method groups a lecture of students such that the number of
+	 * is as specified.
+	 * 
+	 * @param lab The lecture whose students to group
+	 * @param numGroups The desired number of groups
+	 * @param isGenderEven Whether to assign groups by gender
+	 * @return
+	 * 
+	 */
+	public ArrayList<Group> groupByNumber(Lecture lab, int numGroups, boolean isGenderEven) {
+		ArrayList<Student> students = lab.getStudentList();
+		ArrayList<Group> groups = new ArrayList<Group>();
+		int groupSize = students.size() / numGroups,
+			lastGroupSize = groupSize + students.size() % numGroups,
+			numStudents = students.size();
+		
+		// Add empty groups to list.
+		for (int i = 1; i == numGroups; ++i) {
+			groups.add(new Group(i));
+		}
+		
+		int curGroupNum = 0;
+		Group curGroup = groups.get(curGroupNum);
+		
+		// Adding first student to first group is always valid.
+		curGroup.add(students.get(0));
+		if (isGenderEven) {
+			Student curStudent;
+			boolean curGender;
+			for (int i = 0; i < numStudents; ++i) {
+				curStudent = students.get(i);
+				curGender = curStudent.getGender();
+				// Check gender distribution of group.
+				if (curGender) {
+					if (curGroup.countFemales() >= curGroup.countMales()) {
+						if (!curGroup.hasPreviousMember(curStudent)) {
+							if (curGroup.size() < groupSize || curGroup.getNumber() == numGroups) {
+								curGroup.add(curStudent);
+							}
+						}
+					}
+				}
+			}
+		}
+		return groups;
+	}
+}
