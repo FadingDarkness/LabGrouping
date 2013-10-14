@@ -1,57 +1,64 @@
-<<<<<<< HEAD
-package edu.ilstu;
+/*
+* Programmer: Sarah Butler
+*
+* Date: October 14,2013
+*
+* File Name: Lecture
+*
+* Class: IT 226
+* Instructor: Cathy Holbrook
+*/
 
-public class Student 
-=======
-//This is the student class, it creates the student object, which stores
-//which stores their name and gender
-
+/**
+ * 
+ * This is the student class, it creates the student object,
+ * which stores their name and gender and the previous group number
+ * 
+ * @author Sarah Butler
+ * 
+*/
 public class Student
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 {
 	private String name;
 	private boolean isMale;
+	private int prevGroup;
 
-<<<<<<< HEAD
-	public Student(String stuName, boolean gender) 
-=======
-
+/**
+ * 
+ * @param stuName
+ * @param gender
+ */
 	public Student(String stuName, boolean gender)
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 	{
 		name = stuName;
 		isMale = gender;
+		prevGroup=0;
 	}
 
-<<<<<<< HEAD
-	public String getName() 
-=======
 	public String getName()
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 	{
 		return name;
 	}
 
-<<<<<<< HEAD
-	public boolean getGender() 
-=======
 
 	public boolean getGender()
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 	{
 		return isMale;
 	}
 	
-<<<<<<< HEAD
-	public String toString()
+	public int getPrevGroup()
 	{
-		return name;
+		return prevGroup;
 	}
+	
+	
 
-}
-=======
+	public void setPrevGroup(int groupNumber)
+	{
+		prevGroup = groupNumber;		
+	}
+	
 
 	
 
 }
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
