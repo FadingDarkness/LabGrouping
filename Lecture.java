@@ -1,29 +1,31 @@
-<<<<<<< HEAD
-package edu.ilstu;
-=======
-//This is the for each class of students, grouping each lecture
-
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
-
+/*
+* Programmer: Sarah Butler
+*
+* Date: October 14,2013
+*
+* File Name: Lecture
+*
+* Class: IT 226
+* Instructor: Cathy Holbrook
+*/
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-<<<<<<< HEAD
-=======
-//This is the for each class of students, grouping each lecture
+/**
+ * This creates a class that holds an arrayList of students who fill up a specific lecture
+ * Writes and reads a file, adds students and removes students from the file
+ * 
+ * @author Sarah Butler
+ *
+ */
 
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 
 public class Lecture
 {
 	private Student newStu;
-<<<<<<< HEAD
-	private ArrayList<Student> studentList;
-=======
 	private ArrayList<Student>  studentList;
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 	private Scanner in;
 	private String name;
 	private boolean isMale;
@@ -34,35 +36,16 @@ public class Lecture
 	{
 		filename = new File(fileName);
 		studentList = new ArrayList<Student>();
-<<<<<<< HEAD
-		readFile();
-	}
-
-=======
 		writeFile();
 		readFile();
 
 	}
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 	public void addStu(String stuName, boolean gender)
 	{
 		newStu = new Student(stuName, gender);
 		studentList.add(newStu);
 		writeFile();
 	}
-<<<<<<< HEAD
-
-	public void remove(String stuName)
-	{
-
-		for (int i = 0; i < studentList.size(); i++)
-		{
-			if(studentList.get(i).getName().equals(stuName))
-				studentList.remove(i);
-
-		}
-		writeFile();
-=======
 	
 	public void remove(String stuName)
 	{
@@ -75,29 +58,18 @@ public class Lecture
 		}
 		writeFile();
 		
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 
 	}
 
 	private void readFile()
 	{
-
+		int i = 0;
+		
 		try
 		{
 			in = new Scanner(filename);
 		} catch (FileNotFoundException e)
 		{
-<<<<<<< HEAD
-
-			e.printStackTrace();
-		}
-
-		while (in.hasNext())
-		{
-			name = in.nextLine();
-			int gender = in.nextInt();
-			if (gender == 0)
-=======
 			
 			e.printStackTrace();
 		}
@@ -106,19 +78,16 @@ public class Lecture
 		{
 			name = in.nextLine();
 			if(in.nextInt() == 0)
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 				isMale = false;
 			else
 				isMale = true;
 			addStu(name, isMale);
-<<<<<<< HEAD
-			in.nextLine();
-		}
-=======
+			int temp = in.nextInt();
 			
+			studentList.get(i).setPrevGroup(temp);
+			i++;
 		}
 		
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 
 	}
 
@@ -130,40 +99,6 @@ public class Lecture
 			write = new PrintWriter(filename);
 		} catch (FileNotFoundException e)
 		{
-<<<<<<< HEAD
-
-			e.printStackTrace();
-		}
-		for (int i = 0; i < studentList.size(); i++)
-		{
-			write.println(studentList.get(i).getName());
-			if (studentList.get(i).getGender())
-			{
-				write.println(1);
-			} else
-				write.println(0);
-		}
-		write.close();
-	}
-	
-	public int getClassSize()
-	{
-		return studentList.size();
-	}
-	
-	public String getStuName(int index)
-	{
-		return studentList.get(index).getName();
-	}
-	
-	public void print()
-	{
-		for (int i = 0; i < studentList.size(); i++)
-		{
-			System.out.println(studentList.get(i));
-		}
-		System.out.println("===========================");
-=======
 		
 			e.printStackTrace();
 		}
@@ -176,12 +111,38 @@ public class Lecture
 			}
 			else
 				write.println(0);
+			write.println(studentList.get(i).getPrevGroup());
 		}
 		write.close();
 		
 		
 		
->>>>>>> 6926b71bd6546162b47d33357cf9062115b60a7c
 	}
+	public String toString()
+	{
+		String str = "";
+		for(int i = 0; i < studentList.size(); i++)
+		{
+			str += studentList.get(i).getName() + "\n";
+		}
+		return str;
+	}
+	
+	public static void main(String[] args)
+	{
+		Lecture lecture = new Lecture("lecture.txt");
+		lecture.addStu("Sarah", false);
+		lecture.addStu("Tim", true);
+		lecture.addStu("Mark", true);
+		
+		lecture.remove("Sarah");
+		lecture.remove("Orange");
+		
+		
+		
+	}
+
+
+}
 
 }
