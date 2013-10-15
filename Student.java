@@ -24,9 +24,10 @@ public class Student
 	private int prevGroup;
 
 /**
- * 
- * @param stuName
- * @param gender
+ * Creates the student object
+ * @param stuName the name of the student
+ * @param gender if the student is male this is true, 
+ * female it will be false
  */
 	public Student(String stuName, boolean gender)
 	{
@@ -34,25 +35,37 @@ public class Student
 		isMale = gender;
 		prevGroup=0;
 	}
-
+/**
+ * Returns the name of the student
+ * @return name String
+ */
 	public String getName()
 	{
 		return name;
 	}
 
-
+/**
+ * returns the true if male, false if female
+ * @return isMale boolean
+ */
 	public boolean getGender()
 	{
 		return isMale;
 	}
-	
+/**
+* retuns the previous group number that the student was in
+* @return prevGroup int
+*/
 	public int getPrevGroup()
 	{
 		return prevGroup;
 	}
 	
 	
-
+/**
+ * Sets the previous group number
+ * @param groupNumber int
+ */
 	public void setPrevGroup(int groupNumber)
 	{
 		prevGroup = groupNumber;		
