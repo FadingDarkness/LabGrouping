@@ -3,47 +3,225 @@ package edu.ilstu.it226;
 import java.util.ArrayList;
 
 public class GroupManager {
-	/** 
-	 * This method groups a lecture of students such that the number of
+
+	/**
+	 * This method groups a lecture of students such that the number of groups
 	 * is as specified.
 	 * 
-	 * @param lab The lecture whose students to group
-	 * @param numGroups The desired number of groups
-	 * @param isGenderEven Whether to assign groups by gender
-	 * @return
+	 * @param lab
+	 *            The lecture whose students to group
+	 * @param numGroups
+	 *            The desired number of groups
+	 * @param isGenderEven
+	 *            Whether to assign groups by gender
+	 * @return The sorted groups
 	 * 
 	 */
-	public ArrayList<Group> groupByNumber(Lecture lab, int numGroups, boolean isGenderEven) {
+	public static ArrayList<Group> groupByNumber(Lecture lab, int numGroups,
+			boolean isGenderEven) {
 		ArrayList<Student> students = lab.getStudentList();
 		ArrayList<Group> groups = new ArrayList<Group>();
-		int groupSize = students.size() / numGroups,
-			lastGroupSize = groupSize + students.size() % numGroups,
-			numStudents = students.size();
-		
+		int groupSize = students.size() / numGroups, numStudents = students
+				.size();
+
 		// Add empty groups to list.
 		for (int i = 1; i == numGroups; ++i) {
 			groups.add(new Group(i));
 		}
-		
-		int curGroupNum = 0;
-		Group curGroup = groups.get(curGroupNum);
-		
+
+		int curGroupIndex = 0;
+		Group curGroup = groups.get(curGroupIndex);
+
 		// Adding first student to first group is always valid.
 		curGroup.add(students.get(0));
+		Student curStudent;
+
 		if (isGenderEven) {
-			Student curStudent;
 			boolean curGender;
 			for (int i = 0; i < numStudents; ++i) {
-				curStudent = students.get(i);
-				curGender = curStudent.getGender();
-				// Check gender distribution of group.
-				if (curGender) {
-					if (curGroup.countFemales() >= curGroup.countMales()) {
-						if (!curGroup.hasPreviousMember(curStudent)) {
-							if (curGroup.size() < groupSize || curGroup.getNumber() == numGroups) {
-								curGroup.add(curStudent);
+				for (int j = curGroupIndex; j < numGroups; ++j) {
+					curStudent = students.get(i);
+					curGender = curStudent.getGender();
+
+					// Check gender distribution of group.
+					if (curGender) {
+						if (curGroup.countFemales() >= curGroup.countMales()) {
+							if (!curGroup.hasPreviousMember(curStudent)) {
+								if (curGroup.size() < groupSize
+										|| curGroup.getNumber() == numGroups) {
+									curGroup.add(curStudent);
+									break;
+								} else {
+									++curGroupIndex;
+									curGroup = groups.get(curGroupIndex);
+									continue;
+								}
+							} else {
+								++curGroupIndex;
+								curGroup = groups.get(curGroupIndex);
+								continue;
 							}
+						} else {
+							++curGroupIndex;
+							curGroup = groups.get(curGroupIndex);
+							continue;
 						}
+					} else {
+						if (curGroup.countFemales() <= curGroup.countMales()) {
+							if (!curGroup.hasPreviousMember(curStudent)) {
+								if (curGroup.size() < groupSize
+										|| curGroup.getNumber() == numGroups) {
+									curGroup.add(curStudent);
+									break;
+								} else {
+									++curGroupIndex;
+									curGroup = groups.get(curGroupIndex);
+									continue;
+								}
+							} else {
+								++curGroupIndex;
+								curGroup = groups.get(curGroupIndex);
+								continue;
+							}
+						} else {
+							++curGroupIndex;
+							curGroup = groups.get(curGroupIndex);
+							continue;
+						}
+					}
+				}
+			}
+		} else {
+			for (int i = 0; i < numStudents; ++i) {
+				for (int j = curGroupIndex; j < numGroups; ++j) {
+					curStudent = students.get(i);
+
+					// Check gender distribution of group.
+					if (!curGroup.hasPreviousMember(curStudent)) {
+						if (curGroup.size() < groupSize
+								|| curGroup.getNumber() == numGroups) {
+							curGroup.add(curStudent);
+							break;
+						} else {
+							++curGroupIndex;
+							curGroup = groups.get(curGroupIndex);
+							continue;
+						}
+					} else {
+						++curGroupIndex;
+						curGroup = groups.get(curGroupIndex);
+						continue;
+					}
+				}
+			}
+		}
+		return groups;
+	}
+
+	/**
+	 * This method groups students such that the size of each group is as
+	 * specified. Leftover students will be added to the last group.
+	 * 
+	 * @param lab
+	 *            The students to sort
+	 * @param groupSize
+	 *            The desired group size
+	 * @param isGenderEven
+	 *            Whether to have an even gender split for each group
+	 * @return The sorted groups
+	 */
+	public static ArrayList<Group> groupBySize(Lecture lab, int groupSize,
+			boolean isGenderEven) {
+		ArrayList<Student> students = lab.getStudentList();
+		ArrayList<Group> groups = new ArrayList<Group>();
+		int numStudents = students.size(), numGroups = numStudents / groupSize;
+		// Add empty groups to list.
+		for (int i = 1; i == numGroups; ++i) {
+			groups.add(new Group(i));
+		}
+
+		int curGroupIndex = 0;
+		Group curGroup = groups.get(curGroupIndex);
+
+		// Adding first student to first group is always valid.
+		curGroup.add(students.get(0));
+		Student curStudent;
+
+		if (isGenderEven) {
+			boolean curGender;
+			for (int i = 0; i < numStudents; ++i) {
+				for (int j = curGroupIndex; j < numGroups; ++j) {
+					curStudent = students.get(i);
+					curGender = curStudent.getGender();
+
+					// Check gender distribution of group.
+					if (curGender) {
+						if (curGroup.countFemales() >= curGroup.countMales()) {
+							if (!curGroup.hasPreviousMember(curStudent)) {
+								if (curGroup.size() < groupSize
+										|| curGroup.getNumber() == numGroups) {
+									curGroup.add(curStudent);
+									break;
+								} else {
+									++curGroupIndex;
+									curGroup = groups.get(curGroupIndex);
+									continue;
+								}
+							} else {
+								++curGroupIndex;
+								curGroup = groups.get(curGroupIndex);
+								continue;
+							}
+						} else {
+							++curGroupIndex;
+							curGroup = groups.get(curGroupIndex);
+							continue;
+						}
+					} else {
+						if (curGroup.countFemales() <= curGroup.countMales()) {
+							if (!curGroup.hasPreviousMember(curStudent)) {
+								if (curGroup.size() < groupSize
+										|| curGroup.getNumber() == numGroups) {
+									curGroup.add(curStudent);
+									break;
+								} else {
+									++curGroupIndex;
+									curGroup = groups.get(curGroupIndex);
+									continue;
+								}
+							} else {
+								++curGroupIndex;
+								curGroup = groups.get(curGroupIndex);
+								continue;
+							}
+						} else {
+							++curGroupIndex;
+							curGroup = groups.get(curGroupIndex);
+							continue;
+						}
+					}
+				}
+			}
+		} else {
+			for (int i = 0; i < numStudents; ++i) {
+				for (int j = curGroupIndex; j < numGroups; ++j) {
+					curStudent = students.get(i);
+
+					// Check gender distribution of group.
+					if (!curGroup.hasPreviousMember(curStudent)) {
+						if (curGroup.size() < groupSize
+								|| curGroup.getNumber() == numGroups) {
+							curGroup.add(curStudent);
+							break;
+						} else {
+							++curGroupIndex;
+							curGroup = groups.get(curGroupIndex);
+							continue;
+						}
+					} else {
+						++curGroupIndex;
+						curGroup = groups.get(curGroupIndex);
+						continue;
 					}
 				}
 			}
