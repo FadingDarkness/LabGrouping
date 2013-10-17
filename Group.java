@@ -103,18 +103,18 @@ public class Group {
 	 *         given student
 	 */
 	public boolean hasPreviousMember(Student toCheck) {
-		boolean hasPreviousMember = false;
+		boolean hasPreviousMember;
 		int numMembers = members.size();
-		for (int i = 0; i < numMembers; ++i) {
-			if (toCheck.getPrevGroup() == 0
-					&& members.get(i).getPrevGroup() == 0) {
-				break;
+		if (toCheck.getPrevGroup() == 0) {
+			hasPreviousMember = false;
+		} else {
+			int index;
+			for (index = 0; index < numMembers; ++index) {
+				if (toCheck.getPrevGroup() == members.get(index).getPrevGroup()) {
+					break;
+				}
 			}
-
-			if (toCheck.getPrevGroup() == members.get(i).getPrevGroup()) {
-				hasPreviousMember = true;
-				break;
-			}
+			hasPreviousMember = (index != numMembers) ? true : false;
 		}
 		return hasPreviousMember;
 	}
