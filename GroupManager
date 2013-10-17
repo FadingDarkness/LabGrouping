@@ -25,67 +25,47 @@ public class GroupManager {
 				.size();
 
 		// Add empty groups to list.
-		for (int i = 1; i == numGroups; ++i) {
-			groups.add(new Group(i));
-		}
-
-		int curGroupIndex = 0;
-		Group curGroup = groups.get(curGroupIndex);
+		buildGroupList(groups, numGroups);
 
 		// Adding first student to first group is always valid.
+		Group curGroup = groups.get(0);
 		curGroup.add(students.get(0));
 		Student curStudent;
 
 		if (isGenderEven) {
 			boolean curGender;
 			for (int i = 0; i < numStudents; ++i) {
-				for (int j = curGroupIndex; j < numGroups; ++j) {
+				for (int j = 0; j < numGroups; ++j) {
 					curStudent = students.get(i);
 					curGender = curStudent.getGender();
 
 					// Check gender distribution of group.
 					if (curGender) {
 						if (curGroup.countFemales() >= curGroup.countMales()) {
-							if (!curGroup.hasPreviousMember(curStudent)) {
-								if (curGroup.size() < groupSize
-										|| curGroup.getNumber() == numGroups) {
-									curGroup.add(curStudent);
-									break;
-								} else {
-									++curGroupIndex;
-									curGroup = groups.get(curGroupIndex);
-									continue;
-								}
+							if (validateGroup(groups, curGroup.getNumber() - 1,
+									curStudent, groupSize, numGroups)) {
+								curGroup.add(curStudent);
+								break;
 							} else {
-								++curGroupIndex;
-								curGroup = groups.get(curGroupIndex);
+								curGroup = groups.get(curGroup.getNumber());
 								continue;
 							}
 						} else {
-							++curGroupIndex;
-							curGroup = groups.get(curGroupIndex);
+							curGroup = groups.get(curGroup.getNumber());
 							continue;
 						}
 					} else {
 						if (curGroup.countFemales() <= curGroup.countMales()) {
-							if (!curGroup.hasPreviousMember(curStudent)) {
-								if (curGroup.size() < groupSize
-										|| curGroup.getNumber() == numGroups) {
-									curGroup.add(curStudent);
-									break;
-								} else {
-									++curGroupIndex;
-									curGroup = groups.get(curGroupIndex);
-									continue;
-								}
+							if (validateGroup(groups, curGroup.getNumber() - 1,
+									curStudent, groupSize, numGroups)) {
+								curGroup.add(curStudent);
+								break;
 							} else {
-								++curGroupIndex;
-								curGroup = groups.get(curGroupIndex);
+								curGroup = groups.get(curGroup.getNumber());
 								continue;
 							}
 						} else {
-							++curGroupIndex;
-							curGroup = groups.get(curGroupIndex);
+							curGroup = groups.get(curGroup.getNumber());
 							continue;
 						}
 					}
@@ -93,23 +73,16 @@ public class GroupManager {
 			}
 		} else {
 			for (int i = 0; i < numStudents; ++i) {
-				for (int j = curGroupIndex; j < numGroups; ++j) {
+				for (int j = 0; j < numGroups; ++j) {
 					curStudent = students.get(i);
 
 					// Check gender distribution of group.
-					if (!curGroup.hasPreviousMember(curStudent)) {
-						if (curGroup.size() < groupSize
-								|| curGroup.getNumber() == numGroups) {
-							curGroup.add(curStudent);
-							break;
-						} else {
-							++curGroupIndex;
-							curGroup = groups.get(curGroupIndex);
-							continue;
-						}
+					if (validateGroup(groups, curGroup.getNumber() - 1, curStudent,
+							groupSize, numGroups)) {
+						curGroup.add(curStudent);
+						break;
 					} else {
-						++curGroupIndex;
-						curGroup = groups.get(curGroupIndex);
+						curGroup = groups.get(curGroup.getNumber());
 						continue;
 					}
 				}
@@ -134,69 +107,49 @@ public class GroupManager {
 			boolean isGenderEven) {
 		ArrayList<Student> students = lab.getStudentList();
 		ArrayList<Group> groups = new ArrayList<Group>();
-		int numStudents = students.size(), numGroups = numStudents / groupSize;
+		int numStudents = students.size(), numGroups = numStudents / groupSize + 1;
 		// Add empty groups to list.
-		for (int i = 1; i == numGroups; ++i) {
-			groups.add(new Group(i));
-		}
-
-		int curGroupIndex = 0;
-		Group curGroup = groups.get(curGroupIndex);
+		buildGroupList(groups, numGroups);
 
 		// Adding first student to first group is always valid.
+		Group curGroup = groups.get(0);
 		curGroup.add(students.get(0));
 		Student curStudent;
 
 		if (isGenderEven) {
 			boolean curGender;
 			for (int i = 0; i < numStudents; ++i) {
-				for (int j = curGroupIndex; j < numGroups; ++j) {
+				for (int j = 1; j < numGroups; ++j) {
 					curStudent = students.get(i);
 					curGender = curStudent.getGender();
 
 					// Check gender distribution of group.
 					if (curGender) {
 						if (curGroup.countFemales() >= curGroup.countMales()) {
-							if (!curGroup.hasPreviousMember(curStudent)) {
-								if (curGroup.size() < groupSize
-										|| curGroup.getNumber() == numGroups) {
-									curGroup.add(curStudent);
-									break;
-								} else {
-									++curGroupIndex;
-									curGroup = groups.get(curGroupIndex);
-									continue;
-								}
+							if (validateGroup(groups, curGroup.getNumber() - 1,
+									curStudent, groupSize, numGroups)) {
+								curGroup.add(curStudent);
+								break;
 							} else {
-								++curGroupIndex;
-								curGroup = groups.get(curGroupIndex);
+								curGroup = groups.get(curGroup.getNumber());
 								continue;
 							}
 						} else {
-							++curGroupIndex;
-							curGroup = groups.get(curGroupIndex);
+							curGroup = groups.get(curGroup.getNumber());
 							continue;
 						}
 					} else {
 						if (curGroup.countFemales() <= curGroup.countMales()) {
-							if (!curGroup.hasPreviousMember(curStudent)) {
-								if (curGroup.size() < groupSize
-										|| curGroup.getNumber() == numGroups) {
-									curGroup.add(curStudent);
-									break;
-								} else {
-									++curGroupIndex;
-									curGroup = groups.get(curGroupIndex);
-									continue;
-								}
+							if (validateGroup(groups, curGroup.getNumber() - 1,
+									curStudent, groupSize, numGroups)) {
+								curGroup.add(curStudent);
+								break;
 							} else {
-								++curGroupIndex;
-								curGroup = groups.get(curGroupIndex);
+								curGroup = groups.get(curGroup.getNumber());
 								continue;
 							}
 						} else {
-							++curGroupIndex;
-							curGroup = groups.get(curGroupIndex);
+							curGroup = groups.get(curGroup.getNumber());
 							continue;
 						}
 					}
@@ -204,28 +157,41 @@ public class GroupManager {
 			}
 		} else {
 			for (int i = 0; i < numStudents; ++i) {
-				for (int j = curGroupIndex; j < numGroups; ++j) {
+				for (int j = 0; j < numGroups; ++j) {
 					curStudent = students.get(i);
-
-					// Check gender distribution of group.
-					if (!curGroup.hasPreviousMember(curStudent)) {
-						if (curGroup.size() < groupSize
-								|| curGroup.getNumber() == numGroups) {
-							curGroup.add(curStudent);
-							break;
-						} else {
-							++curGroupIndex;
-							curGroup = groups.get(curGroupIndex);
-							continue;
-						}
+					if (validateGroup(groups, curGroup.getNumber() - 1, curStudent,
+							groupSize, numGroups)) {
+						curGroup.add(curStudent);
+						break;
 					} else {
-						++curGroupIndex;
-						curGroup = groups.get(curGroupIndex);
+						curGroup = groups.get(curGroup.getNumber());
 						continue;
 					}
 				}
 			}
 		}
 		return groups;
+	}
+
+	private static void buildGroupList(ArrayList<Group> groups, int numGroups) {
+		for (int i = 1; i <= numGroups; ++i) {
+			groups.add(new Group(i));
+		}
+	}
+
+	private static boolean validateGroup(ArrayList<Group> groups,
+			int curGroupIndex, Student curStudent, int groupSize, int numGroups) {
+		Group curGroup = groups.get(curGroupIndex);
+		if (!curGroup.hasPreviousMember(curStudent)) {
+			if (curGroup.size() < groupSize
+					|| curGroup.getNumber() == numGroups) {
+				curGroup.add(curStudent);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 }
